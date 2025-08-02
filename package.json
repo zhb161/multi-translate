@@ -1,7 +1,7 @@
 {
   "name": "multi-translate",
   "version": "1.0.0",
-  "description": "一个可以同时翻译成多国语言的桌面工具",
+  "description": "A powerful multi-language simultaneous translation desktop application",
   "main": "dist/main/index.js",
   "scripts": {
     "dev": "concurrently \"npm run dev:main\" \"npm run dev:renderer\"",
@@ -15,7 +15,11 @@
     "lint": "eslint src/**/*.{js,ts,vue}",
     "type-check": "vue-tsc --noEmit"
   },
-  "keywords": ["translate", "electron", "vue"],
+  "keywords": [
+    "translate",
+    "electron",
+    "vue"
+  ],
   "author": "",
   "license": "MIT",
   "devDependencies": {
@@ -37,7 +41,8 @@
     "axios": "^1.4.0",
     "element-plus": "^2.3.0",
     "pinia": "^2.1.0",
-    "vue": "^3.3.0"
+    "vue": "^3.3.0",
+    "vue-i18n": "^9.14.5"
   },
   "build": {
     "appId": "com.multitranslate.app",

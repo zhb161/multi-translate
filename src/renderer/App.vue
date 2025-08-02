@@ -6,13 +6,13 @@
         class="control-btn"
         :class="{ active: store.settings.alwaysOnTop }"
         @click="toggleAlwaysOnTop"
-        title="置顶窗口"
+        :title="t('controls.alwaysOnTop')"
       >
         📌
       </button>
       
       <div class="opacity-control">
-        <label>透明度</label>
+        <label>{{ t('controls.opacity') }}</label>
         <input 
           type="range" 
           class="opacity-slider"
@@ -26,7 +26,7 @@
 
       <!-- 自动翻译开关 -->
       <div class="auto-translate-control">
-        <label class="switch-label">自动翻译</label>
+        <label class="switch-label">{{ t('controls.autoTranslate') }}</label>
         <div class="switch" :class="{ active: store.settings.autoTranslate }" @click="toggleAutoTranslate">
           <div class="switch-handle"></div>
         </div>
@@ -35,7 +35,7 @@
       <button 
         class="control-btn"
         @click="showSettings = !showSettings"
-        title="设置"
+        :title="t('controls.settings')"
       >
         ⚙️
       </button>
@@ -44,7 +44,7 @@
     <!-- 主内容区域 -->
     <div class="header">
       <h1 class="app-title">MultiTranslate</h1>
-      <p class="app-subtitle">多语言同步翻译工具</p>
+      <p class="app-subtitle">{{ t('app.subtitle') }}</p>
     </div>
 
     <!-- 输入区域 -->
@@ -53,7 +53,7 @@
         <textarea
           v-model="store.inputText"
           class="text-input"
-          placeholder="输入要翻译的文本，或复制文本后按空格键翻译..."
+          :placeholder="t('input.placeholder')"
           @keydown.ctrl.enter="handleTranslate"
         ></textarea>
         
@@ -62,7 +62,7 @@
           @click="handleTranslate"
           :disabled="store.isTranslating || !store.inputText.trim()"
         >
-          {{ store.isTranslating ? '翻译中...' : '翻译' }}
+          {{ store.isTranslating ? t('input.translating') : t('input.translateButton') }}
         </button>
       </div>
       
@@ -102,7 +102,7 @@
           <div class="language-title">
             <div class="title-left">
               <span class="language-flag">{{ card.flag }}</span>
-              <span>{{ card.languageName }}</span>
+              <span>{{ getLanguageName(card.language) }}</span>
             </div>
             <div class="title-actions">
               <button 
@@ -110,7 +110,7 @@
                 draggable="true"
                 @dragstart="onDragStart(card.language, $event)"
                 @dragend="onDragEnd"
-                title="拖拽排序"
+                :title="t('results.dragToSort')"
               >
                 ⋮⋮
               </button>
@@ -118,7 +118,7 @@
                 class="copy-btn"
                 @click="copyTranslation(card.text)"
                 :disabled="!card.text"
-                title="复制翻译结果"
+                :title="t('results.copyResult')"
               >
                 📋
               </button>
@@ -136,13 +136,13 @@
               {{ card.error }}
             </div>
             <div v-else-if="card.isLoading" class="loading-message">
-              翻译中...
+              {{ t('results.translating') }}
             </div>
             <div v-else-if="card.text" class="result-text">
               {{ card.text }}
             </div>
             <div v-else class="placeholder-text">
-              等待翻译...
+              {{ t('results.waitingForTranslation') }}
               </div>
             </div>
           </div>
@@ -151,74 +151,74 @@
       
       <div v-else class="empty-state">
         <div class="empty-icon">🌐</div>
-        <p>选择要翻译的语言</p>
-        <p class="hint">点击上方语言标签开始</p>
+        <p>{{ t('languages.selectToTranslate') }}</p>
+        <p class="hint">{{ t('languages.clickToStart') }}</p>
       </div>
     </div>
 
     <!-- 设置弹窗 -->
     <div v-if="showSettings" class="settings-overlay" @click="showSettings = false">
       <div class="settings-panel" @click.stop>
-        <h3>设置</h3>
+        <h3>{{ t('settings.title') }}</h3>
         
         <!-- API 配置 -->
         <div class="settings-section">
-          <h4>翻译服务配置</h4>
+          <h4>{{ t('settings.apiConfig') }}</h4>
           
           <div class="provider-config">
-            <label>Google Translate API Key:</label>
+            <label>{{ t('settings.googleApiKey') }}</label>
             <input 
               v-model="tempApiConfig.google!.apiKey"
               type="password" 
-              placeholder="输入Google API密钥"
+              :placeholder="t('settings.googleApiKeyPlaceholder')"
             />
           </div>
           
           <div class="provider-config">
-            <label>Microsoft Translator:</label>
+            <label>{{ t('settings.microsoftTranslator') }}</label>
             <input 
               v-model="tempApiConfig.microsoft!.apiKey"
               type="password" 
-              placeholder="输入Microsoft API密钥"
+              :placeholder="t('settings.microsoftApiKeyPlaceholder')"
             />
             <input 
               v-model="tempApiConfig.microsoft!.region"
               type="text" 
-              placeholder="区域 (默认: global)"
+              :placeholder="t('settings.microsoftRegionPlaceholder')"
             />
           </div>
           
           <div class="provider-config">
-            <label>DeepL API Key:</label>
+            <label>{{ t('settings.deeplApiKey') }}</label>
             <input 
               v-model="tempApiConfig.deepl!.apiKey"
               type="password" 
-              placeholder="输入DeepL API密钥"
+              :placeholder="t('settings.deeplApiKeyPlaceholder')"
             />
           </div>
           
           <div class="provider-config">
-            <label>百度翻译:</label>
+            <label>{{ t('settings.baiduTranslate') }}</label>
             <input 
               v-model="tempApiConfig.baidu!.appId"
               type="text" 
-              placeholder="输入百度APP ID"
+              :placeholder="t('settings.baiduAppIdPlaceholder')"
             />
             <input 
               v-model="tempApiConfig.baidu!.secretKey"
               type="password" 
-              placeholder="输入百度密钥"
+              :placeholder="t('settings.baiduSecretKeyPlaceholder')"
             />
           </div>
         </div>
 
         <!-- API选择 -->
         <div class="settings-section">
-          <h4>翻译API选择</h4>
+          <h4>{{ t('settings.apiSelection') }}</h4>
           <div class="provider-selector">
-            <label>选择翻译服务:</label>
+            <label>{{ t('settings.selectService') }}</label>
             <select v-model="tempSettings.currentProvider" class="provider-select">
-              <option value="">请选择翻译服务</option>
+              <option value="">{{ t('settings.selectServicePlaceholder') }}</option>
               <option value="Google Translate">Google Translate</option>
               <option value="Microsoft Translator">Microsoft Translator</option>
               <option value="DeepL Translator">DeepL Translator</option>
@@ -229,19 +229,26 @@
 
         <!-- 其他设置 -->
         <div class="settings-section">
-          <h4>其他设置</h4>
+          <h4>{{ t('settings.otherSettings') }}</h4>
+          <div class="language-selector-setting">
+            <label>{{ t('settings.language') }}:</label>
+            <select v-model="locale" class="language-select">
+              <option value="zh-CN">{{ t('settings.chinese') }}</option>
+              <option value="en">{{ t('settings.english') }}</option>
+            </select>
+          </div>
           <label class="checkbox-label">
             <input 
               type="checkbox" 
               v-model="tempSettings.autoTranslateOnClipboard"
             />
-            复制文本时自动显示翻译提示
+            {{ t('settings.autoTranslateOnClipboard') }}
           </label>
         </div>
 
         <div class="settings-actions">
-          <button @click="saveSettings" class="save-btn">保存</button>
-          <button @click="showSettings = false" class="cancel-btn">取消</button>
+          <button @click="saveSettings" class="save-btn">{{ t('settings.save') }}</button>
+          <button @click="showSettings = false" class="cancel-btn">{{ t('settings.cancel') }}</button>
         </div>
       </div>
     </div>
@@ -250,7 +257,7 @@
     <div v-if="showTranslatePrompt" class="translate-prompt-overlay">
       <div class="translate-prompt">
         <div class="prompt-content">
-          <div class="prompt-text">检测到剪贴板内容变化</div>
+          <div class="prompt-text">{{ t('prompt.clipboardChanged') }}</div>
           <div class="prompt-preview">{{ clipboardPreview }}</div>
           <div class="prompt-actions">
             <button 
@@ -258,20 +265,20 @@
               class="prompt-btn translate-btn" 
               @click="confirmTranslate"
             >
-              翻译
+              {{ t('prompt.translate') }}
             </button>
             <button 
               v-else 
               class="prompt-btn cancel-btn" 
               @click="hidePrompt"
             >
-              取消
+              {{ t('prompt.cancel') }}
             </button>
             <span class="prompt-hint" v-if="store.settings.autoTranslate">
-              {{ Math.ceil(countdownPercent / 100 * 3) }}秒后自动翻译
+              {{ t('prompt.autoTranslateCountdown', { seconds: Math.ceil(countdownPercent / 100 * 3) }) }}
             </span>
             <span class="prompt-hint" v-else>
-              点击翻译按钮开始翻译
+              {{ t('prompt.clickToTranslate') }}
             </span>
           </div>
         </div>
@@ -283,17 +290,25 @@
     
     <!-- 复制成功提示 -->
     <div v-if="showCopySuccess" class="copy-success-toast">
-      已复制到剪贴板 ✓
+      {{ t('results.copySuccess') }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useAppStore } from './stores/appStore'
 import type { ApiConfig, AppSettings } from './stores/appStore'
 
 const store = useAppStore()
+const { t, locale } = useI18n()
+
+// 获取语言名称
+const getLanguageName = (langCode: string) => {
+  const lang = store.availableLanguages.find(l => l.code === langCode)
+  return lang?.name || langCode
+}
 const showSettings = ref(false)
 const showTranslatePrompt = ref(false)
 const clipboardPreview = ref('')
@@ -558,9 +573,31 @@ const copyTranslation = async (text: string) => {
   }
 }
 
+// 更新国际化消息
+const updateI18nMessages = () => {
+  store.setI18nMessages({
+    googleApiKeyMissing: t('errors.googleApiKeyMissing'),
+    microsoftApiKeyMissing: t('errors.microsoftApiKeyMissing'),
+    deeplApiKeyMissing: t('errors.deeplApiKeyMissing'),
+    baiduConfigIncomplete: t('errors.baiduConfigIncomplete'),
+    googleTranslateFailed: t('errors.googleTranslateFailed'),
+    microsoftTranslateFailed: t('errors.microsoftTranslateFailed'),
+    deeplTranslateFailed: t('errors.deeplTranslateFailed'),
+    baiduTranslateFailed: t('errors.baiduTranslateFailed'),
+    noProvider: t('errors.noProvider'),
+    translationFailed: t('errors.translationFailed')
+  }, t)
+}
+
+// 监听语言变化
+watch(locale, () => {
+  updateI18nMessages()
+})
+
 // 剪贴板监听
 onMounted(() => {
   store.loadSettings()
+  updateI18nMessages()
   
   // 设置临时配置为当前配置
   tempApiConfig.value = {
@@ -1107,5 +1144,32 @@ onUnmounted(() => {
   box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
   z-index: 3000;
   animation: slideInRight 0.3s ease-out;
+}
+
+/* 语言选择器样式 */
+.language-selector-setting {
+  margin-bottom: 16px;
+}
+
+.language-selector-setting label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.language-select {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--background-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.language-select:focus {
+  border-color: var(--primary-color);
+  outline: none;
 }
 </style>

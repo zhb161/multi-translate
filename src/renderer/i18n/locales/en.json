@@ -1,0 +1,87 @@
+{
+  "app": {
+    "title": "MultiTranslate",
+    "subtitle": "Multi-language Simultaneous Translation Tool"
+  },
+  "controls": {
+    "alwaysOnTop": "Always on Top",
+    "opacity": "Opacity",
+    "autoTranslate": "Auto Translate",
+    "settings": "Settings"
+  },
+  "input": {
+    "placeholder": "Enter text to translate, or copy text and press space to translate...",
+    "translateButton": "Translate",
+    "translating": "Translating..."
+  },
+  "languages": {
+    "selectToTranslate": "Select languages to translate",
+    "clickToStart": "Click language tags above to start"
+  },
+  "results": {
+    "dragToSort": "Drag to sort",
+    "copyResult": "Copy translation result",
+    "translating": "Translating...",
+    "waitingForTranslation": "Waiting for translation...",
+    "copySuccess": "Copied to clipboard ✓"
+  },
+  "settings": {
+    "title": "Settings",
+    "apiConfig": "Translation Service Configuration",
+    "googleApiKey": "Google Translate API Key:",
+    "googleApiKeyPlaceholder": "Enter Google API Key",
+    "microsoftTranslator": "Microsoft Translator:",
+    "microsoftApiKeyPlaceholder": "Enter Microsoft API Key",
+    "microsoftRegionPlaceholder": "Region (default: global)",
+    "deeplApiKey": "DeepL API Key:",
+    "deeplApiKeyPlaceholder": "Enter DeepL API Key",
+    "baiduTranslate": "Baidu Translate:",
+    "baiduAppIdPlaceholder": "Enter Baidu APP ID",
+    "baiduSecretKeyPlaceholder": "Enter Baidu Secret Key",
+    "apiSelection": "Translation API Selection",
+    "selectService": "Select Translation Service:",
+    "selectServicePlaceholder": "Please select translation service",
+    "otherSettings": "Other Settings",
+    "autoTranslateOnClipboard": "Automatically show translation prompt when copying text",
+    "save": "Save",
+    "cancel": "Cancel",
+    "language": "Language",
+    "chinese": "中文",
+    "english": "English"
+  },
+  "prompt": {
+    "clipboardChanged": "Clipboard content changed",
+    "translate": "Translate",
+    "cancel": "Cancel",
+    "autoTranslateCountdown": "{seconds}s until auto translate",
+    "clickToTranslate": "Click translate button to start"
+  },
+  "languages_list": {
+    "en": "English",
+    "zh": "Chinese",
+    "ja": "Japanese",
+    "ko": "Korean",
+    "fr": "French",
+    "de": "German",
+    "es": "Spanish",
+    "it": "Italian",
+    "ru": "Russian",
+    "pt": "Portuguese",
+    "ar": "Arabic",
+    "th": "Thai",
+    "vi": "Vietnamese",
+    "hi": "Hindi"
+  },
+  "errors": {
+    "noProvider": "No translation service provider available",
+    "googleApiKeyMissing": "Google API Key not configured",
+    "microsoftApiKeyMissing": "Microsoft API Key not configured",
+    "deeplApiKeyMissing": "DeepL API Key not configured",
+    "baiduConfigIncomplete": "Baidu Translate API configuration incomplete",
+    "translationFailed": "Translation failed",
+    "googleTranslateFailed": "Google Translate failed",
+    "microsoftTranslateFailed": "Microsoft Translator failed",
+    "deeplTranslateFailed": "DeepL translation failed",
+    "baiduTranslateFailed": "Baidu translation failed"
+  }
+}

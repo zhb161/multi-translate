@@ -7,7 +7,10 @@ import {
   DeepLTranslate, 
   BaiduTranslate,
   SUPPORTED_LANGUAGES,
-  type TranslationResult 
+  SUPPORTED_LANGUAGES_BASE,
+  createSupportedLanguages,
+  type TranslationResult,
+  type I18nMessages 
 } from '../services/translationService'
 
 export interface ApiConfig {
@@ -42,6 +45,19 @@ export const useAppStore = defineStore('app', () => {
   const translationResults = ref<TranslationResult[]>([])
   const isTranslating = ref(false)
   const inputText = ref('')
+  const i18nMessages = ref<I18nMessages & { noProvider: string; translationFailed: string }>({
+    googleApiKeyMissing: 'Google API Key not configured',
+    microsoftApiKeyMissing: 'Microsoft API Key not configured',
+    deeplApiKeyMissing: 'DeepL API Key not configured',
+    baiduConfigIncomplete: 'Baidu Translate API configuration incomplete',
+    googleTranslateFailed: 'Google Translate failed',
+    microsoftTranslateFailed: 'Microsoft Translator failed',
+    deeplTranslateFailed: 'DeepL translation failed',
+    baiduTranslateFailed: 'Baidu translation failed',
+    noProvider: 'No translation service provider available',
+    translationFailed: 'Translation failed'
+  })
+  const translateFunction = ref<((key: string) => string) | null>(null)
   
   // 设置
   const settings = ref<AppSettings>({
@@ -56,10 +72,16 @@ export const useAppStore = defineStore('app', () => {
   const apiConfig = ref<ApiConfig>({})
 
   // 计算属性
-  const availableLanguages = computed(() => SUPPORTED_LANGUAGES)
+  const availableLanguages = computed(() => {
+    if (translateFunction.value) {
+      return createSupportedLanguages(translateFunction.value)
+    }
+    return SUPPORTED_LANGUAGES
+  })
+  
   const selectedLanguageNames = computed(() => 
     settings.value.selectedLanguages.map(code => 
-      SUPPORTED_LANGUAGES.find(lang => lang.code === code)?.name
+      availableLanguages.value.find(lang => lang.code === code)?.name
     ).filter(Boolean)
   )
   const availableProviders = computed(() => translationService.getAvailableProviders())
@@ -67,7 +89,7 @@ export const useAppStore = defineStore('app', () => {
   // 显示的翻译卡片（按选中语言顺序）
   const displayCards = computed(() => {
     return settings.value.selectedLanguages.map(langCode => {
-      const langInfo = SUPPORTED_LANGUAGES.find(l => l.code === langCode)
+      const langInfo = availableLanguages.value.find(l => l.code === langCode)
       const result = translationResults.value.find(r => r.language === langCode)
       
       return {
@@ -111,6 +133,14 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
+  // 设置国际化消息和翻译函数
+  const setI18nMessages = (messages: typeof i18nMessages.value, t?: (key: string) => string) => {
+    i18nMessages.value = messages
+    if (t) {
+      translateFunction.value = t
+    }
+  }
+
   // 动作
   const translate = async (text?: string) => {
     const textToTranslate = text || inputText.value
@@ -120,20 +150,21 @@ export const useAppStore = defineStore('app', () => {
     try {
       const results = await translationService.translateToMultipleLanguages(
         textToTranslate,
-        settings.value.selectedLanguages
+        settings.value.selectedLanguages,
+        i18nMessages.value
       )
       translationResults.value = results
     } catch (error) {
-      console.error('翻译失败:', error)
+      console.error('Translation failed:', error)
       // 显示错误结果
       translationResults.value = settings.value.selectedLanguages.map(langCode => {
-        const langInfo = SUPPORTED_LANGUAGES.find(l => l.code === langCode)
+        const langInfo = availableLanguages.value.find(l => l.code === langCode)
         return {
           text: '',
           language: langCode,
           languageName: langInfo?.name || '',
           flag: langInfo?.flag || '',
-          error: error instanceof Error ? error.message : '翻译失败'
+          error: error instanceof Error ? error.message : i18nMessages.value.translationFailed
         }
       })
     } finally {
@@ -250,6 +281,7 @@ export const useAppStore = defineStore('app', () => {
     setAlwaysOnTop,
     setOpacity,
     loadSettings,
-    handleClipboardText
+    handleClipboardText,
+    setI18nMessages
   }
 })

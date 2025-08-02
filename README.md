@@ -1,242 +1,278 @@
 # MultiTranslate
 
-一个功能强大的多语言同步翻译桌面应用，基于 Electron + Vue 3 构建，支持多个翻译API，具有现代化的界面和智能的交互体验。
+A powerful multi-language simultaneous translation desktop application built with Electron + Vue 3, supporting multiple translation APIs with modern UI and intelligent interaction.
 
-## ✨ 核心功能
+## Language / 语言
 
-### 🌐 多语言同步翻译
-- 一次输入，同时翻译到多种目标语言
-- 实时显示翻译结果，支持14种常用语言
-- 智能语言检测，自动识别源语言
+- [English](README.md) | [中文](README_CN.md)
 
-### 🔄 智能剪贴板监听
-- **自动模式**：复制文本后3秒内自动翻译，支持手动取消
-- **手动模式**：检测到剪贴板变化后直接填入输入框，手动触发翻译
-- 智能过滤机制：避免翻译结果被重复检测，防止无限循环
+## ✨ Core Features
 
-### 🎛️ 灵活的交互方式
-- **拖拽排序**：通过拖拽图标调整翻译卡片显示顺序
-- **一键复制**：每个翻译结果都提供复制按钮，便于使用
-- **实时预览**：拖拽过程中实时预览最终排列效果
-- **开关控制**：自动翻译、剪贴板监听等功能均可独立控制
+### 🌐 Multi-language Simultaneous Translation
+- Single input, simultaneous translation to multiple target languages
+- Real-time translation results display, supporting 14 common languages
+- Intelligent language detection with automatic source language recognition
 
-### 🖥️ 窗口管理
-- **窗口置顶**：可设置窗口始终保持在最前面
-- **透明度调节**：0.3-1.0范围内调整窗口透明度
-- **现代化UI**：深色主题，卡片式布局，流畅动画效果
+### 🔄 Intelligent Clipboard Monitoring
+- **Auto Mode**: Automatically translates 3 seconds after copying text, supports manual cancellation
+- **Manual Mode**: Detects clipboard changes and fills input box directly, manual translation trigger
+- Smart filtering mechanism: Avoids re-detecting translation results, prevents infinite loops
 
-### 🔌 多API支持
-- **Google Translate API** - 覆盖语言最全面
-- **Microsoft Translator** - 企业级翻译质量
-- **DeepL API** - 欧洲语言翻译首选
-- **百度翻译API** - 中文翻译优化
+### 🎛️ Flexible Interaction
+- **Drag & Drop Sorting**: Adjust translation card display order by dragging icons
+- **One-click Copy**: Each translation result provides a copy button for easy use
+- **Real-time Preview**: Preview final arrangement during drag operation
+- **Toggle Controls**: Auto translation, clipboard monitoring and other features can be controlled independently
 
-## 🌍 支持的语言
+### 🖥️ Window Management
+- **Always on Top**: Set window to always stay in front
+- **Opacity Adjustment**: Adjust window opacity within 0.3-1.0 range
+- **Modern UI**: Dark theme, card layout, smooth animations
 
-| 语言 | 代码 | 国旗 | 语言 | 代码 | 国旗 |
-|------|------|------|------|------|------|
-| 英语 | en | 🇺🇸 | 法语 | fr | 🇫🇷 |
-| 中文 | zh | 🇨🇳 | 德语 | de | 🇩🇪 |
-| 日语 | ja | 🇯🇵 | 西班牙语 | es | 🇪🇸 |
-| 韩语 | ko | 🇰🇷 | 意大利语 | it | 🇮🇹 |
-| 俄语 | ru | 🇷🇺 | 葡萄牙语 | pt | 🇵🇹 |
-| 阿拉伯语 | ar | 🇸🇦 | 泰语 | th | 🇹🇭 |
-| 越南语 | vi | 🇻🇳 | 印地语 | hi | 🇮🇳 |
+### 🔌 Multiple API Support
+- **Google Translate API** - Most comprehensive language coverage
+- **Microsoft Translator** - Enterprise-grade translation quality
+- **DeepL API** - Preferred for European languages
+- **Baidu Translate API** - Optimized for Chinese translation
 
-## 🚀 快速开始
+## 🌍 Supported Languages
 
-### 环境要求
+| Language | Code | Flag | Language | Code | Flag |
+|----------|------|------|----------|------|------|
+| English | en | 🇺🇸 | French | fr | 🇫🇷 |
+| Chinese | zh | 🇨🇳 | German | de | 🇩🇪 |
+| Japanese | ja | 🇯🇵 | Spanish | es | 🇪🇸 |
+| Korean | ko | 🇰🇷 | Italian | it | 🇮🇹 |
+| Russian | ru | 🇷🇺 | Portuguese | pt | 🇵🇹 |
+| Arabic | ar | 🇸🇦 | Thai | th | 🇹🇭 |
+| Vietnamese | vi | 🇻🇳 | Hindi | hi | 🇮🇳 |
+
+## 🚀 Quick Start
+
+### Requirements
 - Node.js >= 16.0.0
 - npm >= 8.0.0
 
-### 安装依赖
+### Install Dependencies
 ```bash
 npm install
 ```
 
-### 开发运行
+### Development
 ```bash
 npm run dev
 ```
 
-这会同时启动：
-- Electron 主进程（端口自动分配）
-- Vue 开发服务器（http://localhost:3000）
+This will start both:
+- Electron main process (auto-assigned port)
+- Vue development server (http://localhost:3000)
 
-### 构建项目
+### Build Project
 ```bash
 npm run build
 ```
 
-### 打包应用
-```bash
-# Windows 安装包
-npm run dist:win
+### Package Application
 
-# 跨平台打包
-npm run dist
+#### Windows Executable (.exe)
+```bash
+# Package as Windows installer (.exe)
+npm run dist:win
 ```
 
-打包后的文件位于 `release/` 目录。
+This generates:
+- `release/MultiTranslate Setup 1.0.0.exe` - Windows installer
+- `release/win-unpacked/` - Unpacked application folder
 
-## ⚙️ API 配置
+#### Other Platforms
+```bash
+# Cross-platform packaging (auto-detects current system)
+npm run dist
 
-使用前需要配置至少一个翻译服务提供商：
+# Or specify platform
+npm run build && electron-builder --mac    # macOS
+npm run build && electron-builder --linux  # Linux
+```
+
+#### Packaging Configuration
+- All packaged files located in `release/` directory
+- Windows installer supports custom installation path
+- Application icon located at `assets/icon.ico` (prepare this file)
+- Installer size approximately 150-200MB (includes Electron runtime)
+
+#### Installation & Usage
+1. Download `MultiTranslate Setup 1.0.0.exe`
+2. Double-click to run installer
+3. Choose installation location (optional)
+4. Use after installation completion
+
+## ⚙️ API Configuration
+
+Configure at least one translation service provider before use:
 
 ### Google Translate API
-1. 访问 [Google Cloud Console](https://console.cloud.google.com/)
-2. 创建项目并启用 "Cloud Translation API"
-3. 生成 API 密钥
-4. 在应用设置中输入 API 密钥
+1. Visit [Google Cloud Console](https://console.cloud.google.com/)
+2. Create project and enable "Cloud Translation API"
+3. Generate API key
+4. Enter API key in application settings
 
 ### Microsoft Translator
-1. 访问 [Azure Portal](https://portal.azure.com/)
-2. 创建 "Translator" 资源
-3. 获取订阅密钥和区域信息
-4. 在应用设置中输入密钥和区域（默认：global）
+1. Visit [Azure Portal](https://portal.azure.com/)
+2. Create "Translator" resource
+3. Get subscription key and region information
+4. Enter key and region in application settings (default: global)
 
 ### DeepL API
-1. 访问 [DeepL API](https://www.deepl.com/pro#developer)
-2. 注册开发者账户
-3. 获取 Authentication Key
-4. 在应用设置中输入 API 密钥
+1. Visit [DeepL API](https://www.deepl.com/pro#developer)
+2. Register developer account
+3. Get Authentication Key
+4. Enter API key in application settings
 
-### 百度翻译API
-1. 访问 [百度翻译开放平台](https://fanyi-api.baidu.com/)
-2. 注册并实名认证
-3. 创建应用获取 APP ID 和密钥
-4. 在应用设置中输入 APP ID 和 Secret Key
+### Baidu Translate API
+1. Visit [Baidu Translate Open Platform](https://fanyi-api.baidu.com/)
+2. Register and complete real-name verification
+3. Create application to get APP ID and key
+4. Enter APP ID and Secret Key in application settings
 
-## 📖 使用说明
+## 📖 Usage Instructions
 
-### 基本翻译
-1. 在输入框中输入要翻译的文本
-2. 点击语言标签选择目标语言（支持多选）
-3. 点击"翻译"按钮或按 `Ctrl+Enter` 开始翻译
+### Basic Translation
+1. Enter text to translate in input box
+2. Click language tags to select target languages (multiple selection supported)
+3. Click "Translate" button or press `Ctrl+Enter` to start translation
 
-### 智能剪贴板
-1. **启用剪贴板监听**：在设置中勾选"复制文本时自动显示翻译提示"
-2. **自动翻译模式**：
-   - 开启自动翻译开关
-   - 复制任意文本，3秒后自动翻译
-   - 可点击"取消"按钮终止翻译
-3. **手动翻译模式**：
-   - 关闭自动翻译开关
-   - 复制文本后自动填入输入框
-   - 手动点击翻译按钮
+### Smart Clipboard
+1. **Enable Clipboard Monitoring**: Check "Automatically show translation prompt when copying text" in settings
+2. **Auto Translation Mode**:
+   - Enable auto translation switch
+   - Copy any text, auto-translate after 3 seconds
+   - Click "Cancel" button to stop translation
+3. **Manual Translation Mode**:
+   - Disable auto translation switch
+   - Auto-fill input box after copying text
+   - Manually click translate button
 
-### 结果管理
-- **拖拽排序**：点击卡片右上角的"⋮⋮"图标拖拽调整顺序
-- **复制结果**：点击"📋"按钮复制翻译结果
-- **实时预览**：拖拽过程中可预览最终排列效果
+### Result Management
+- **Drag & Drop Sorting**: Click "⋮⋮" icon in top-right corner of card to drag and adjust order
+- **Copy Results**: Click "📋" button to copy translation result
+- **Real-time Preview**: Preview final arrangement during drag operation
 
-### 窗口控制
-- **置顶**：点击"📌"按钮切换窗口置顶状态
-- **透明度**：拖动透明度滑块调整窗口透明度
-- **设置**：点击"⚙️"按钮打开设置面板
+### Window Controls
+- **Always on Top**: Click "📌" button to toggle window always-on-top status
+- **Opacity**: Drag opacity slider to adjust window transparency
+- **Settings**: Click "⚙️" button to open settings panel
 
-## 🏗️ 项目架构
+## 🏗️ Project Architecture
 
 ```
 src/
-├── main/                   # Electron 主进程
-│   ├── index.ts           # 主进程入口，窗口管理，剪贴板监听
-│   ├── preload.ts         # 预加载脚本，IPC 通信桥接
-│   └── tsconfig.json      # 主进程 TypeScript 配置
+├── main/                   # Electron main process
+│   ├── index.ts           # Main process entry, window management, clipboard monitoring
+│   ├── preload.ts         # Preload script, IPC communication bridge
+│   └── tsconfig.json      # Main process TypeScript config
 │
-├── renderer/              # Vue 3 渲染进程
-│   ├── App.vue           # 主应用组件
-│   ├── main.ts           # 渲染进程入口
-│   ├── index.html        # HTML 模板
-│   ├── style.css         # 全局样式
+├── renderer/              # Vue 3 renderer process
+│   ├── App.vue           # Main application component
+│   ├── main.ts           # Renderer process entry
+│   ├── index.html        # HTML template
+│   ├── style.css         # Global styles
 │   │
-│   ├── stores/           # Pinia 状态管理
-│   │   └── appStore.ts   # 应用状态，设置，翻译逻辑
+│   ├── i18n/             # Internationalization
+│   │   ├── index.ts      # i18n configuration
+│   │   └── locales/      # Language files
+│   │       ├── en.json   # English
+│   │       └── zh-CN.json# Chinese (Simplified)
 │   │
-│   ├── services/         # 业务服务
-│   │   └── translationService.ts  # 翻译服务，API 集成
+│   ├── stores/           # Pinia state management
+│   │   └── appStore.ts   # Application state, settings, translation logic
 │   │
-│   └── types/            # TypeScript 类型定义
-│       └── electron.d.ts # Electron API 类型声明
+│   ├── services/         # Business services
+│   │   └── translationService.ts  # Translation service, API integration
+│   │
+│   └── types/            # TypeScript type definitions
+│       └── electron.d.ts # Electron API type declarations
 │
-├── tsconfig.json         # 根 TypeScript 配置
-└── vite.config.ts        # Vite 构建配置
+├── tsconfig.json         # Root TypeScript configuration
+└── vite.config.ts        # Vite build configuration
 ```
 
-## 🛠️ 技术栈
+## 🛠️ Tech Stack
 
-### 核心框架
-- **[Electron 25+](https://www.electronjs.org/)** - 跨平台桌面应用框架
-- **[Vue 3](https://vuejs.org/)** - 渐进式 JavaScript 框架
-- **[TypeScript 5+](https://www.typescriptlang.org/)** - 静态类型检查
+### Core Frameworks
+- **[Electron 25+](https://www.electronjs.org/)** - Cross-platform desktop application framework
+- **[Vue 3](https://vuejs.org/)** - Progressive JavaScript framework
+- **[TypeScript 5+](https://www.typescriptlang.org/)** - Static type checking
 
-### 开发工具
-- **[Vite 4+](https://vitejs.dev/)** - 现代化构建工具
-- **[Pinia](https://pinia.vuejs.org/)** - Vue 3 状态管理
-- **[Electron Builder](https://www.electron.build/)** - 应用打包工具
+### Development Tools
+- **[Vite 4+](https://vitejs.dev/)** - Modern build tool
+- **[Pinia](https://pinia.vuejs.org/)** - Vue 3 state management
+- **[Vue I18n](https://vue-i18n.intlify.dev/)** - Internationalization framework
+- **[Electron Builder](https://www.electron.build/)** - Application packaging tool
 
-### UI 组件
-- **[Element Plus](https://element-plus.org/)** - Vue 3 组件库
-- **CSS Variables** - 主题定制
-- **CSS Transitions** - 流畅动画效果
+### UI Components
+- **[Element Plus](https://element-plus.org/)** - Vue 3 component library
+- **CSS Variables** - Theme customization
+- **CSS Transitions** - Smooth animations
 
-### 网络通信
-- **[Axios](https://axios-http.com/)** - HTTP 客户端
-- **原生 Fetch API** - 备用网络请求方案
+### Network Communication
+- **[Axios](https://axios-http.com/)** - HTTP client
+- **Native Fetch API** - Backup network request solution
 
-## 🔧 开发指南
+## 🔧 Development Guide
 
-### 代码规范
+### Code Standards
 ```bash
-# 代码检查
+# Code linting
 npm run lint
 
-# 类型检查
+# Type checking
 npm run type-check
 ```
 
-### 调试技巧
-1. **主进程调试**：使用 VSCode 的 Node.js 调试器
-2. **渲染进程调试**：开启开发者工具（F12）
-3. **IPC 通信**：在控制台查看 `window.electronAPI` 对象
+### Debugging Tips
+1. **Main Process Debugging**: Use VSCode's Node.js debugger
+2. **Renderer Process Debugging**: Enable developer tools (F12)
+3. **IPC Communication**: Check `window.electronAPI` object in console
 
-### 新增翻译服务
-1. 在 `translationService.ts` 中实现 `TranslationProvider` 接口
-2. 在 `appStore.ts` 的 `initializeTranslationServices` 中注册服务
-3. 在设置界面添加配置表单
+### Adding New Translation Service
+1. Implement `TranslationProvider` interface in `translationService.ts`
+2. Register service in `initializeTranslationServices` in `appStore.ts`
+3. Add configuration form in settings interface
 
-## 📝 更新日志
+## 📝 Changelog
 
-### v1.0.0 (当前版本)
-- ✅ 多语言同步翻译功能
-- ✅ 智能剪贴板监听与处理
-- ✅ 拖拽排序和一键复制
-- ✅ 四大翻译API集成
-- ✅ 现代化UI设计
-- ✅ 窗口管理功能
+### v1.0.0 (Current Version)
+- ✅ Multi-language simultaneous translation
+- ✅ Intelligent clipboard monitoring and processing
+- ✅ Drag & drop sorting and one-click copy
+- ✅ Four major translation API integrations
+- ✅ Modern UI design
+- ✅ Window management features
+- ✅ Internationalization support (English/Chinese)
 
-## 🤝 贡献指南
+## 🤝 Contributing
 
-欢迎提交 Issue 和 Pull Request！
+Welcome to submit Issues and Pull Requests!
 
-1. Fork 本项目
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建 Pull Request
+1. Fork this project
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Create Pull Request
 
-## 📄 许可证
+## 📄 License
 
-本项目基于 [MIT License](LICENSE) 开源协议。
+This project is open sourced under [MIT License](LICENSE).
 
-## 🙏 致谢
+## 🙏 Acknowledgments
 
-感谢以下开源项目：
-- [Electron](https://www.electronjs.org/) - 跨平台桌面应用开发
-- [Vue.js](https://vuejs.org/) - 渐进式前端框架
-- [Element Plus](https://element-plus.org/) - Vue 3 组件库
-- [Vite](https://vitejs.dev/) - 下一代前端构建工具
+Thanks to the following open source projects:
+- [Electron](https://www.electronjs.org/) - Cross-platform desktop application development
+- [Vue.js](https://vuejs.org/) - Progressive frontend framework
+- [Element Plus](https://element-plus.org/) - Vue 3 component library
+- [Vite](https://vitejs.dev/) - Next generation frontend build tool
+- [Vue I18n](https://vue-i18n.intlify.dev/) - Vue internationalization framework
 
 ---
 
-如有问题或建议，欢迎提交 [Issue](../../issues) 或联系开发者。
+For questions or suggestions, feel free to submit an [Issue](../../issues) or contact the developer.

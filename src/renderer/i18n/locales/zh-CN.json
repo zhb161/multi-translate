@@ -1,0 +1,87 @@
+{
+  "app": {
+    "title": "MultiTranslate",
+    "subtitle": "多语言同步翻译工具"
+  },
+  "controls": {
+    "alwaysOnTop": "置顶窗口",
+    "opacity": "透明度",
+    "autoTranslate": "自动翻译",
+    "settings": "设置"
+  },
+  "input": {
+    "placeholder": "输入要翻译的文本，或复制文本后按空格键翻译...",
+    "translateButton": "翻译",
+    "translating": "翻译中..."
+  },
+  "languages": {
+    "selectToTranslate": "选择要翻译的语言",
+    "clickToStart": "点击上方语言标签开始"
+  },
+  "results": {
+    "dragToSort": "拖拽排序",
+    "copyResult": "复制翻译结果",
+    "translating": "翻译中...",
+    "waitingForTranslation": "等待翻译...",
+    "copySuccess": "已复制到剪贴板 ✓"
+  },
+  "settings": {
+    "title": "设置",
+    "apiConfig": "翻译服务配置",
+    "googleApiKey": "Google Translate API Key:",
+    "googleApiKeyPlaceholder": "输入Google API密钥",
+    "microsoftTranslator": "Microsoft Translator:",
+    "microsoftApiKeyPlaceholder": "输入Microsoft API密钥",
+    "microsoftRegionPlaceholder": "区域 (默认: global)",
+    "deeplApiKey": "DeepL API Key:",
+    "deeplApiKeyPlaceholder": "输入DeepL API密钥",
+    "baiduTranslate": "百度翻译:",
+    "baiduAppIdPlaceholder": "输入百度APP ID",
+    "baiduSecretKeyPlaceholder": "输入百度密钥",
+    "apiSelection": "翻译API选择",
+    "selectService": "选择翻译服务:",
+    "selectServicePlaceholder": "请选择翻译服务",
+    "otherSettings": "其他设置",
+    "autoTranslateOnClipboard": "复制文本时自动显示翻译提示",
+    "save": "保存",
+    "cancel": "取消",
+    "language": "语言",
+    "chinese": "中文",
+    "english": "English"
+  },
+  "prompt": {
+    "clipboardChanged": "检测到剪贴板内容变化",
+    "translate": "翻译",
+    "cancel": "取消",
+    "autoTranslateCountdown": "{seconds}秒后自动翻译",
+    "clickToTranslate": "点击翻译按钮开始翻译"
+  },
+  "languages_list": {
+    "en": "英语",
+    "zh": "中文",
+    "ja": "日语",
+    "ko": "韩语",
+    "fr": "法语",
+    "de": "德语",
+    "es": "西班牙语",
+    "it": "意大利语",
+    "ru": "俄语",
+    "pt": "葡萄牙语",
+    "ar": "阿拉伯语",
+    "th": "泰语",
+    "vi": "越南语",
+    "hi": "印地语"
+  },
+  "errors": {
+    "noProvider": "没有可用的翻译服务提供商",
+    "googleApiKeyMissing": "Google API密钥未配置",
+    "microsoftApiKeyMissing": "Microsoft API密钥未配置",
+    "deeplApiKeyMissing": "DeepL API密钥未配置",
+    "baiduConfigIncomplete": "百度翻译API配置未完整",
+    "translationFailed": "翻译失败",
+    "googleTranslateFailed": "Google翻译失败",
+    "microsoftTranslateFailed": "Microsoft翻译失败",
+    "deeplTranslateFailed": "DeepL翻译失败",
+    "baiduTranslateFailed": "百度翻译失败"
+  }
+}

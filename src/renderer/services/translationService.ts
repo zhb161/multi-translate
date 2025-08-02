@@ -8,9 +8,20 @@ export interface TranslationResult {
     error?: string
 }
 
+export interface I18nMessages {
+    googleApiKeyMissing: string
+    microsoftApiKeyMissing: string
+    deeplApiKeyMissing: string
+    baiduConfigIncomplete: string
+    googleTranslateFailed: string
+    microsoftTranslateFailed: string
+    deeplTranslateFailed: string
+    baiduTranslateFailed: string
+}
+
 export interface TranslationProvider {
     name: string
-    translate: (text: string, targetLang: string) => Promise<string>
+    translate: (text: string, targetLang: string, messages?: I18nMessages) => Promise<string>
     isConfigured: () => boolean
 }
 
@@ -27,8 +38,8 @@ export class GoogleTranslate implements TranslationProvider {
         return !!this.apiKey
     }
 
-    async translate(text: string, targetLang: string): Promise<string> {
-        if (!this.apiKey) throw new Error('Google API密钥未配置')
+    async translate(text: string, targetLang: string, messages?: I18nMessages): Promise<string> {
+        if (!this.apiKey) throw new Error(messages?.googleApiKeyMissing ?? 'Google API Key not configured')
 
         try {
             const response = await axios.post(
@@ -42,7 +53,7 @@ export class GoogleTranslate implements TranslationProvider {
 
             return response.data.data.translations[0].translatedText
         } catch (error) {
-            throw new Error(`Google翻译失败: ${error}`)
+            throw new Error(messages?.googleTranslateFailed ?? `Google Translate failed: ${error}`)
         }
     }
 }
@@ -62,8 +73,8 @@ export class MicrosoftTranslate implements TranslationProvider {
         return !!this.apiKey
     }
 
-    async translate(text: string, targetLang: string): Promise<string> {
-        if (!this.apiKey) throw new Error('Microsoft API密钥未配置')
+    async translate(text: string, targetLang: string, messages?: I18nMessages): Promise<string> {
+        if (!this.apiKey) throw new Error(messages?.microsoftApiKeyMissing ?? 'Microsoft API Key not configured')
 
         try {
             const response = await axios.post(
@@ -80,7 +91,7 @@ export class MicrosoftTranslate implements TranslationProvider {
 
             return response.data[0].translations[0].text
         } catch (error) {
-            throw new Error(`Microsoft翻译失败: ${error}`)
+            throw new Error(messages?.microsoftTranslateFailed ?? `Microsoft Translator failed: ${error}`)
         }
     }
 }
@@ -98,8 +109,8 @@ export class DeepLTranslate implements TranslationProvider {
         return !!this.apiKey
     }
 
-    async translate(text: string, targetLang: string): Promise<string> {
-        if (!this.apiKey) throw new Error('DeepL API密钥未配置')
+    async translate(text: string, targetLang: string, messages?: I18nMessages): Promise<string> {
+        if (!this.apiKey) throw new Error(messages?.deeplApiKeyMissing ?? 'DeepL API Key not configured')
 
         try {
             const response = await axios.post(
@@ -118,7 +129,7 @@ export class DeepLTranslate implements TranslationProvider {
 
             return response.data.translations[0].text
         } catch (error) {
-            throw new Error(`DeepL翻译失败: ${error}`)
+            throw new Error(messages?.deeplTranslateFailed ?? `DeepL translation failed: ${error}`)
         }
     }
 }
@@ -298,8 +309,8 @@ export class BaiduTranslate implements TranslationProvider {
         return this.md5(str)
     }
 
-    async translate(text: string, targetLang: string): Promise<string> {
-        if (!this.appId || !this.secretKey) throw new Error('百度翻译API配置未完整')
+    async translate(text: string, targetLang: string, messages?: I18nMessages): Promise<string> {
+        if (!this.appId || !this.secretKey) throw new Error(messages?.baiduConfigIncomplete ?? 'Baidu Translate API configuration incomplete')
 
         try {
             const salt = Date.now().toString()
@@ -317,17 +328,43 @@ export class BaiduTranslate implements TranslationProvider {
             })
 
             if (response.data.error_code) {
-                throw new Error(`百度翻译错误: ${response.data.error_msg}`)
+                throw new Error(`Baidu Translate error: ${response.data.error_msg}`)
             }
 
             return response.data.trans_result[0].dst
         } catch (error) {
-            throw new Error(`百度翻译失败: ${error}`)
+            throw new Error(messages?.baiduTranslateFailed ?? `Baidu translation failed: ${error}`)
         }
     }
 }
 
 // 语言配置
+export const SUPPORTED_LANGUAGES_BASE = [
+    {code: 'en', flag: '🇺🇸'},
+    {code: 'zh', flag: '🇨🇳'},
+    {code: 'ja', flag: '🇯🇵'},
+    {code: 'ko', flag: '🇰🇷'},
+    {code: 'fr', flag: '🇫🇷'},
+    {code: 'de', flag: '🇩🇪'},
+    {code: 'es', flag: '🇪🇸'},
+    {code: 'it', flag: '🇮🇹'},
+    {code: 'ru', flag: '🇷🇺'},
+    {code: 'pt', flag: '🇵🇹'},
+    {code: 'ar', flag: '🇸🇦'},
+    {code: 'th', flag: '🇹🇭'},
+    {code: 'vi', flag: '🇻🇳'},
+    {code: 'hi', flag: '🇮🇳'}
+]
+
+// 创建国际化语言列表的函数
+export const createSupportedLanguages = (t: (key: string) => string) => {
+    return SUPPORTED_LANGUAGES_BASE.map(lang => ({
+        ...lang,
+        name: t(`languages_list.${lang.code}`)
+    }))
+}
+
+// 为了兼容性，保留原有的导出（使用中文名称）
 export const SUPPORTED_LANGUAGES = [
     {code: 'en', name: '英语', flag: '🇺🇸'},
     {code: 'zh', name: '中文', flag: '🇨🇳'},
@@ -376,10 +413,14 @@ export class TranslationService {
 
     async translateToMultipleLanguages(
         text: string,
-        targetLanguages: string[]
+        targetLanguages: string[],
+        messages?: {
+            noProvider: string
+            translationFailed: string
+        } & I18nMessages
     ): Promise<TranslationResult[]> {
         if (!this.selectedProvider) {
-            throw new Error('没有可用的翻译服务提供商')
+            throw new Error(messages?.noProvider ?? 'No translation service provider available')
         }
 
         const results: TranslationResult[] = []
@@ -389,7 +430,7 @@ export class TranslationService {
             if (!langInfo) continue
 
             try {
-                const translatedText = await this.selectedProvider.translate(text, langCode)
+                const translatedText = await this.selectedProvider.translate(text, langCode, messages)
                 results.push({
                     text: translatedText,
                     language: langCode,
@@ -402,7 +443,7 @@ export class TranslationService {
                     language: langCode,
                     languageName: langInfo.name,
                     flag: langInfo.flag,
-                    error: error instanceof Error ? error.message : '翻译失败'
+                    error: error instanceof Error ? error.message : (messages?.translationFailed ?? 'Translation failed')
                 })
             }
         }
